@@ -40,3 +40,18 @@ dtYTrain <- data.table(read.table(file.path(dataDir,"train","y_train.txt")))
 dtYTest <- data.table(read.table(file.path(dataDir,"test","y_test.txt")))
 
 # 1. Merges the training and the test sets to create one data set.
+dtSubject <- rbind(dtSubjectTrain,dtSubjectTest)
+dtX       <- rbind(dtXTrain,dtXTest)
+dtY       <- rbind(dtYTrain,dtYTest)
+setnames(dtSubject,"V1","Subject")
+setnames(dtY,"V1","Activity")
+
+dtSubject <- cbind(dtSubject,dtY)
+dt <- cbind(dtX,dtSubject)
+
+setkey(dt,Subject,Activity)
+
+# 2. Extracts only the measurements on the mean and standard deviation for each measurement.
+dtFeature <- data.table(read.table(file.path(dataDir,"features.txt")))
+setnames(dtFeature, names(dtFeature), c("featureNum","featureName"))
+dtFeature <- dtFeature[grepl("mean\\(\\)|std\\(\\)",featureName)]
