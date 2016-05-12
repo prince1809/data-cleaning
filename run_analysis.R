@@ -30,28 +30,37 @@ if(!file.exists(dataDir)){
 
 
 # Reading the data files
-dtSubjectTrain <- fread(file.path(dataDir,"train","subject_train.txt"))
-dtSubjectTest <- fread(file.path(dataDir,"test","subject_test.txt"))
+featureNames <- read.table(file.path(dataDir,"features.txt"))
+activityLabels <- read.table(file.path(dataDir,"activity_labels.txt"), header = FALSE)
 
-dtXTrain <- fread(file.path(dataDir,"train","X_train.txt"))
-dtXTest <- fread(file.path(dataDir,"test","X_test.txt"))
+#Traning Data
+subjectTrain <- read.table(file.path(dataDir,"train","subject_train.txt"),header = FALSE)
+activityTrain <- read.table(file.path(dataDir,"train","y_train.txt"),header = FALSE)
+featuresTrain <- read.table(file.path(dataDir,"train","X_train.txt"),header = FALSE)
 
-dtYTrain <- data.table(read.table(file.path(dataDir,"train","y_train.txt")))
-dtYTest <- data.table(read.table(file.path(dataDir,"test","y_test.txt")))
+#Test Data
+subjectTest <- read.table(file.path(dataDir,"test","subject_test.txt"),header = FALSE)
+activityTest <- read.table(file.path(dataDir,"test","y_test.txt"),header = FALSE)
+featuresTest <- read.table(file.path(dataDir,"test","X_test.txt"),header = FALSE)
 
 # 1. Merges the training and the test sets to create one data set.
-dtSubject <- rbind(dtSubjectTrain,dtSubjectTest)
-dtX       <- rbind(dtXTrain,dtXTest)
-dtY       <- rbind(dtYTrain,dtYTest)
-setnames(dtSubject,"V1","Subject")
-setnames(dtY,"V1","Activity")
+subject <- rbind(subjectTrain,subjectTest)
+activity <- rbind(activityTrain,activityTest)
+features <- rbind(featuresTrain,featuresTest)
 
-dtSubject <- cbind(dtSubject,dtY)
-dt <- cbind(dtX,dtSubject)
-
-setkey(dt,Subject,Activity)
+colnames(features) <- t(featureNames[2])
+colnames(activity) <- "Activity"
+colnames(subject) <- "Subject"
+cData <- cbind(features,activity,subject)
 
 # 2. Extracts only the measurements on the mean and standard deviation for each measurement.
-dtFeature <- data.table(read.table(file.path(dataDir,"features.txt")))
-setnames(dtFeature, names(dtFeature), c("featureNum","featureName"))
-dtFeature <- dtFeature[grepl("mean\\(\\)|std\\(\\)",featureName)]
+columnWithMeanStd <- grep(".*Mean.*|.*Std.*", names(cData), ignore.case=TRUE)
+requiredColumns <- c(columnWithMeanStd, 562, 563)
+extractedData <- cData[,requiredColumns]
+
+# 3. Uses descriptive activity names to name the activities in the data set
+extractedData$Activity <- as.character(extractedData$Activity)
+for (i in 1:6){
+  extractedData$Activity[extractedData$Activity == i] <- as.character(activityLabels[i,2])
+}
+extractedData$Activity <- as.factor(extractedData$Activity)
