@@ -126,3 +126,19 @@ names(extractedData) <- gsub("^f","frequency",names(extractedData))
 names(extractedData) <- gsub("-mean()","Mean",names(extractedData))
 names(extractedData) <- gsub("-std()","STD",names(extractedData))
 ```
+Creating the tidy datasets
+---------------------------
+creating the factor variable for each activity and subject
+```
+extractedData$Subject <- as.factor(extractedData$Subject)
+extractedData <- data.table(extractedData)
+```
+Averaging the dataset by subject and activity
+```
+tidyData <- aggregate(. ~ Subject + Activity, extractedData, mean)
+```
+Order the dataset by subject and activity and save to another file
+```
+tidyData <- tidyData[order(tidyData$Subject,tidyData$Activity),]
+write.table(tidyData, file = "Tidy.txt", row.names = FALSE)
+```
