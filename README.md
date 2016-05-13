@@ -45,3 +45,28 @@ dataDir <- "UCI HAR Dataset"
 6. subject_test.txt
 7. y_test.txt
 8. X_test.txt
+
+Reading files and merge
+-------------------------
+#### Reading the data files
+Readind the metadata files and storing them in `featureName` and `activityLabels`
+```
+featureNames <- read.table(file.path(dataDir,"features.txt"))
+activityLabels <- read.table(file.path(dataDir,"activity_labels.txt"), header = FALSE)
+```
+
+####Traning Data
+Reading the Training data for for `subject` and `activity` and `feature` data set
+```
+subjectTrain <- read.table(file.path(dataDir,"train","subject_train.txt"),header = FALSE)
+activityTrain <- read.table(file.path(dataDir,"train","y_train.txt"),header = FALSE)
+featuresTrain <- read.table(file.path(dataDir,"train","X_train.txt"),header = FALSE)
+```
+
+####Test Data
+Reading the Test data for for `subject` and `activity` and `feature` data set
+```
+subjectTest <- read.table(file.path(dataDir,"test","subject_test.txt"),header = FALSE)
+activityTest <- read.table(file.path(dataDir,"test","y_test.txt"),header = FALSE)
+featuresTest <- read.table(file.path(dataDir,"test","X_test.txt"),header = FALSE)
+```
