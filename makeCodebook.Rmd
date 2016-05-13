@@ -2,8 +2,47 @@ Codebook
 ==============
 This codebook was generated on `r as.character(Sys.time())`
 
-Summary of TidyData
-======================
+Variables List and Descriptions
+----------------------------------
+
+Variable Name | Description
+--------------|------------
+Subject       | Id of the sample who carried out activity
+Activity      | Activity Name
+
+
+1.Merges the training and the test sets to create one data set.
+----------------------------------------------------------------
+###Structure of the Merged Dataset
+
+```{r}
+str(cData)
+```
+
+2. Extracts only the measurements on the mean.....
+-----------------------------------------------------------------------
+###Names of extracted Data:
+```{r}
+names(extractedData)
+```
+
+3. Uses descriptive activity names
+-----------------------------------
+###Activity Column of the Data
+```{r}
+head(extractedData$Activity,100)
+```
+
+4. Appropriately labels the data set....
+----------------------------------------
+###Labeled Datasets
+```{r}
+names(extractedData)
+```
+
+5. Summary of datasets with tidyData
+-------------------------------------
+
 ```{r}
 summary(tidyData)
 ```
