@@ -90,3 +90,39 @@ Combining the dataset column wise and making the complete dataset
 ```
 cData <- cbind(features,activity,subject)
 ```
+
+Extracts the datasets
+------------------------
+Condition to extract mean and standar deviation
+```
+columnWithMeanStd <- grep(".*Mean.*|.*Std.*", names(cData), ignore.case=TRUE)
+```
+Creating the subset with required condition and getting the subset of data
+```
+requiredColumns <- c(columnWithMeanStd, 562, 563)
+extractedData <- cData[,requiredColumns]
+```
+
+Descriptive activity names
+---------------------------
+Using the activity label datasets for naming the activities in the dataset
+```
+extractedData$Activity <- as.character(extractedData$Activity)
+for (i in 1:6){
+  extractedData$Activity[extractedData$Activity == i] <- as.character(activityLabels[i,2])
+}
+extractedData$Activity <- as.factor(extractedData$Activity)
+```
+
+Labeling the dataset with desciptive names
+-------------------------------------------
+```
+names(extractedData) <- gsub("Acc","Accelerometer",names(extractedData))
+names(extractedData) <- gsub("Gyro","Gyroscope",names(extractedData))
+names(extractedData) <- gsub("BodyBody","Body",names(extractedData))
+names(extractedData) <- gsub("Mag","Magnitude",names(extractedData))
+names(extractedData) <- gsub("^t","Time",names(extractedData))
+names(extractedData) <- gsub("^f","frequency",names(extractedData))
+names(extractedData) <- gsub("-mean()","Mean",names(extractedData))
+names(extractedData) <- gsub("-std()","STD",names(extractedData))
+```
