@@ -1,3 +1,9 @@
 Codebook
 ==============
 This codebook was generated on `r as.character(Sys.time())`
+
+Summary of TidyData
+======================
+```{r}
+summary(tidyData)
+```
