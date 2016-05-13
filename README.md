@@ -20,3 +20,28 @@ Author : Prince Kumar (https://github.com/prince1809/data-cleaning)
 > 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 >Good luck!
 
+
+Getting started
+======================
+##Preparing Environment
+```
+packages <- c("data.table")
+sapply(packages, require, character.only=TRUE, quietly=TRUE)
+```
+
+### Files, Urls and Folders
+```
+dataUrl = "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+dataFileName <- "data.zip"
+dataDir <- "UCI HAR Dataset"
+```
+
+### Available Data files
+1. features.txt
+2. activity_labels.txt
+3. subject_train.txt
+4. y_train.txt
+5. X_train.txt
+6. subject_test.txt
+7. y_test.txt
+8. X_test.txt
