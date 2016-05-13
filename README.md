@@ -70,3 +70,23 @@ subjectTest <- read.table(file.path(dataDir,"test","subject_test.txt"),header = 
 activityTest <- read.table(file.path(dataDir,"test","y_test.txt"),header = FALSE)
 featuresTest <- read.table(file.path(dataDir,"test","X_test.txt"),header = FALSE)
 ```
+
+###Merges the training and the test sets to create one data set.
+Merging the training data and test data for `subject` , `activity` and `features` row wise.
+
+```
+subject <- rbind(subjectTrain,subjectTest)
+activity <- rbind(activityTrain,activityTest)
+features <- rbind(featuresTrain,featuresTest)
+```
+
+Naming the column name of datasets using the feature name feature datasets
+```
+colnames(features) <- t(featureNames[2])
+colnames(activity) <- "Activity"
+colnames(subject) <- "Subject"
+```
+Combining the dataset column wise and making the complete dataset
+```
+cData <- cbind(features,activity,subject)
+```
